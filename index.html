@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .checklist-item {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .checkbox {
+            margin-right: 10px;
+        }
+
+        .comment-box {
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        .status {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .done {
+            color: green;
+        }
+
+        .not-done {
+            color: red;
+        }
+
+        .print-btn {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Checklist with Comments</title>
+</head>
+<body>
+
+    <h2>Checklist with Comments</h2>
+
+    <div class="checklist">
+        <!-- Checklist items with comments -->
+        <div class="checklist-item">
+            <label for="workHistoryCheckbox">Work History</label>
+            <input type="checkbox" class="checkbox" id="workHistoryCheckbox">
+            <input type="text" class="comment-box" id="workHistoryComment" placeholder="Comments (max 25 words)">
+        </div>
+
+        <div class="checklist-item">
+            <label for="emailCheckbox">Email</label>
+            <input type="checkbox" class="checkbox" id="emailCheckbox">
+            <input type="text" class="comment-box" id="emailComment" placeholder="Comments (max 25 words)">
+        </div>
+
+        <div class="checklist-item">
+            <label for="phoneCheckbox">Phone</label>
+            <input type="checkbox" class="checkbox" id="phoneCheckbox">
+            <input type="text" class="comment-box" id="phoneComment" placeholder="Comments (max 25 words)">
+        </div>
+
+        <div class="checklist-item">
+            <label for="addressCheckbox">Address</label>
+            <input type="checkbox" class="checkbox" id="addressCheckbox">
+            <input type="text" class="comment-box" id="addressComment" placeholder="Comments (max 25 words)">
+        </div>
+
+        <div class="checklist-item">
+            <label for="specialtyCheckbox">Specialty</label>
+            <input type="checkbox" class="checkbox" id="specialtyCheckbox">
+            <input type="text" class="comment-box" id="specialtyComment" placeholder="Comments (max 25 words)">
+        </div>
+    </div>
+
+    <!-- Status indicator -->
+    <div class="status">
+        Status: <span id="statusIndicator" class="not-done">Not Done</span>
+    </div>
+
+    <!-- Print button -->
+    <button class="print-btn" onclick="printChecklist()">Print Checklist</button>
+
+    <script>
+        // JavaScript to update status based on checkbox states
+        const checkboxes = document.querySelectorAll('.checkbox');
+        const statusIndicator = document.getElementById('statusIndicator');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateStatus);
+        });
+
+        function updateStatus() {
+            const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+            statusIndicator.textContent = allChecked ? 'Done' : 'Not Done';
+            statusIndicator.className = allChecked ? 'done' : 'not-done';
+        }
+
+        // JavaScript to print the checklist as a PDF
+        function printChecklist() {
+            window.print();
+        }
+    </script>
+
+</body>
+</html>
