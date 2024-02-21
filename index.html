@@ -54,6 +54,7 @@
             height: 20px;
             border-radius: 50%;
             margin-right: 10px;
+            background-color: red;
         }
 
         .green {
@@ -62,6 +63,16 @@
 
         .red {
             background-color: red;
+        }
+
+        .missing-list {
+            margin-top: 10px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .missing-item {
+            margin-bottom: 5px;
         }
     </style>
     <title>Checklist with Comments</title>
@@ -110,6 +121,9 @@
         Status: <span id="statusIndicator" class="not-done">Not Done</span>
     </div>
 
+    <!-- Missing items list -->
+    <ul class="missing-list" id="missingList"></ul>
+
     <!-- Print button -->
     <button class="print-btn" onclick="printChecklist()">Print Checklist</button>
 
@@ -118,9 +132,11 @@
         const checkboxes = document.querySelectorAll('.checkbox');
         const statusIndicator = document.getElementById('statusIndicator');
         const indicators = document.querySelectorAll('.light-indicator');
+        const missingList = document.getElementById('missingList');
 
         checkboxes.forEach((checkbox, index) => {
             checkbox.addEventListener('change', () => updateStatus(index));
+            updateStatus(index); // Initial update
         });
 
         function updateStatus(index) {
@@ -130,6 +146,20 @@
 
             // Update light indicators
             indicators[index].className = checkboxes[index].checked ? 'light-indicator green' : 'light-indicator red';
+
+            // Update missing items list
+            if (checkboxes[index].checked) {
+                const missingItem = document.getElementById(`missingItem${index}`);
+                if (missingItem) {
+                    missingList.removeChild(missingItem);
+                }
+            } else {
+                const missingItem = document.createElement('li');
+                missingItem.className = 'missing-item';
+                missingItem.id = `missingItem${index}`;
+                missingItem.textContent = checkboxes[index].nextElementSibling.textContent;
+                missingList.appendChild(missingItem);
+            }
         }
 
         // JavaScript to print the checklist as a PDF
