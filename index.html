@@ -48,6 +48,21 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        .light-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .green {
+            background-color: green;
+        }
+
+        .red {
+            background-color: red;
+        }
     </style>
     <title>Checklist with Comments</title>
 </head>
@@ -56,36 +71,16 @@
     <h2>Checklist with Comments</h2>
 
     <div class="checklist">
-        <!-- Checklist items with comments -->
+        <!-- Checklist items with comments and light indicators -->
         <div class="checklist-item">
+            <div class="light-indicator" id="workHistoryIndicator"></div>
             <label for="workHistoryCheckbox">Work History</label>
             <input type="checkbox" class="checkbox" id="workHistoryCheckbox">
             <input type="text" class="comment-box" id="workHistoryComment" placeholder="Comments (max 25 words)">
         </div>
 
-        <div class="checklist-item">
-            <label for="emailCheckbox">Email</label>
-            <input type="checkbox" class="checkbox" id="emailCheckbox">
-            <input type="text" class="comment-box" id="emailComment" placeholder="Comments (max 25 words)">
-        </div>
+        <!-- Repeat similar structure for other items -->
 
-        <div class="checklist-item">
-            <label for="phoneCheckbox">Phone</label>
-            <input type="checkbox" class="checkbox" id="phoneCheckbox">
-            <input type="text" class="comment-box" id="phoneComment" placeholder="Comments (max 25 words)">
-        </div>
-
-        <div class="checklist-item">
-            <label for="addressCheckbox">Address</label>
-            <input type="checkbox" class="checkbox" id="addressCheckbox">
-            <input type="text" class="comment-box" id="addressComment" placeholder="Comments (max 25 words)">
-        </div>
-
-        <div class="checklist-item">
-            <label for="specialtyCheckbox">Specialty</label>
-            <input type="checkbox" class="checkbox" id="specialtyCheckbox">
-            <input type="text" class="comment-box" id="specialtyComment" placeholder="Comments (max 25 words)">
-        </div>
     </div>
 
     <!-- Status indicator -->
@@ -97,18 +92,22 @@
     <button class="print-btn" onclick="printChecklist()">Print Checklist</button>
 
     <script>
-        // JavaScript to update status based on checkbox states
+        // JavaScript to update status and indicators based on checkbox states
         const checkboxes = document.querySelectorAll('.checkbox');
         const statusIndicator = document.getElementById('statusIndicator');
+        const indicators = document.querySelectorAll('.light-indicator');
 
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', updateStatus);
+        checkboxes.forEach((checkbox, index) => {
+            checkbox.addEventListener('change', () => updateStatus(index));
         });
 
-        function updateStatus() {
+        function updateStatus(index) {
             const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
             statusIndicator.textContent = allChecked ? 'Done' : 'Not Done';
             statusIndicator.className = allChecked ? 'done' : 'not-done';
+
+            // Update light indicators
+            indicators[index].className = checkboxes[index].checked ? 'light-indicator green' : 'light-indicator red';
         }
 
         // JavaScript to print the checklist as a PDF
